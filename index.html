@@ -148,6 +148,26 @@ th:first-child, td:first-child { text-align: left; }
 .facts dt { color: var(--muted); font-size: 13px; }
 .facts dd { margin: 0; font-family: var(--mono); }
 
+.absent { border-style: dashed; background: repeating-linear-gradient(135deg, var(--panel) 0 14px, #191c23 14px 28px); }
+.absent-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+.absent-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.absent-list li { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.absent-list li b { font-weight: 600; }
+.absent-list li span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.fac-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.fac-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.fac-actions .search { margin: 0; width: 220px; }
+.fac-actions .ghost { padding: 9px 12px; font-size: 13px; }
+.fac-scroll { max-height: 70vh; overflow: auto; border: 1px solid var(--line); border-radius: 10px; }
+.fac th { position: sticky; top: 0; background: var(--panel); z-index: 1; cursor: pointer; user-select: none; }
+.fac th[aria-sort="descending"]::after { content: " ↓"; color: var(--accent); }
+.fac th[aria-sort="ascending"]::after { content: " ↑"; color: var(--accent); }
+.fac td.nm { font-family: var(--body); white-space: nowrap; text-align: left; }
+.fac th.l { text-align: left; }
+.fac td.tot { color: var(--accent); font-weight: 500; }
+.fac td.neg { color: var(--bad); }
+.fac tr.abs td { color: #6b707a; font-style: italic; }
+.fac tbody tr:hover td { background: #1c2027; }
 footer { max-width: 1120px; margin: 0 auto; padding: 18px 20px 30px; display: flex; justify-content: flex-end; }
 .mark { font-family: var(--display); font-style: italic; font-size: 15px; color: #5c616b; letter-spacing: .02em; }
 .mark b { font-style: normal; font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .14em; color: #767b85; margin-left: 4px; }
@@ -158,7 +178,8 @@ footer { max-width: 1120px; margin: 0 auto; padding: 18px 20px 30px; display: fl
   .bar-in { padding: 10px 14px; }
   .brand span { display: none; }
   .tabs { width: 100%; }
-  .tab { flex: 1; padding: 9px 6px; font-size: 13.5px; }
+  .tab { flex: 1; padding: 9px 2px; font-size: 12.5px; }
+  .fac-actions .search { width: 100%; }
   main { padding: 16px 14px 28px; }
   .view { gap: 14px; }
   .hero-main { padding: 20px; min-height: 0; }
@@ -185,6 +206,7 @@ footer { max-width: 1120px; margin: 0 auto; padding: 18px 20px 30px; display: fl
       <button class="tab" data-view="overview" aria-current="page">Overview</button>
       <button class="tab" data-view="leaderboard">Leaderboard</button>
       <button class="tab" data-view="my-result">My result</button>
+      <button class="tab" data-view="faculty">Faculty</button>
     </nav>
   </div>
 </div>
@@ -245,9 +267,49 @@ footer { max-width: 1120px; margin: 0 auto; padding: 18px 20px 30px; display: fl
   <section class="view" id="view-leaderboard" hidden>
     <div class="podium" id="podium"><div class="pod p2"><div class="place">2nd</div><div class="nm">Chinmay Gururaj Kulkarni</div><div class="sc">92.5 / 180</div></div><div class="pod p1"><div class="place">1st</div><div class="nm">Angela Maria Joseph</div><div class="sc">105.5 / 180</div></div><div class="pod p3"><div class="place">3rd</div><div class="nm">Prajna Hebbar S V</div><div class="sc">84.5 / 180</div></div></div>
     <div class="card">
-      <h2>Top 5</h2>
-      <p class="sub">Ranked on total marks</p>
-      <div class="scroll"><table class="lb" id="lb-table"><thead><tr><th>Rank</th><th style="text-align:left">Name</th><th>Total</th><th class="hide-sm">Percentile</th></tr></thead><tbody><tr class="top3"><td class="rk">1</td><td class="nm" style="text-align: left;">Angela Maria Joseph</td><td><span class="barcell"><span class="track"><i style="width: 100%;"></i></span>105.5</span></td><td class="hide-sm">100</td></tr><tr class="top3"><td class="rk">2</td><td class="nm" style="text-align: left;">Chinmay Gururaj Kulkarni</td><td><span class="barcell"><span class="track"><i style="width: 87.6777%;"></i></span>92.5</span></td><td class="hide-sm">97.9</td></tr><tr class="top3"><td class="rk">3</td><td class="nm" style="text-align: left;">Prajna Hebbar S V</td><td><span class="barcell"><span class="track"><i style="width: 80.0948%;"></i></span>84.5</span></td><td class="hide-sm">95.8</td></tr><tr><td class="rk">4</td><td class="nm" style="text-align: left;">D Joseph Stewart</td><td><span class="barcell"><span class="track"><i style="width: 72.9858%;"></i></span>77</span></td><td class="hide-sm">91.7</td></tr><tr><td class="rk">4</td><td class="nm" style="text-align: left;">Shetty Shreshtha Harish</td><td><span class="barcell"><span class="track"><i style="width: 72.9858%;"></i></span>77</span></td><td class="hide-sm">91.7</td></tr></tbody></table></div>
+      <h2>Top 5 ranks</h2>
+      <p class="sub">Ranked on total marks · equal totals share a rank</p>
+      <div class="scroll"><table class="lb" id="lb-table"><thead><tr><th>Rank</th><th style="text-align:left">Name</th><th>Total</th><th class="hide-sm">Percentile</th></tr></thead><tbody><tr class="top3"><td class="rk">1</td><td class="nm" style="text-align: left;">Angela Maria Joseph</td><td><span class="barcell"><span class="track"><i style="width: 100%;"></i></span>105.5</span></td><td class="hide-sm">100</td></tr><tr class="top3"><td class="rk">2</td><td class="nm" style="text-align: left;">Chinmay Gururaj Kulkarni</td><td><span class="barcell"><span class="track"><i style="width: 87.6777%;"></i></span>92.5</span></td><td class="hide-sm">97.9</td></tr><tr class="top3"><td class="rk">3</td><td class="nm" style="text-align: left;">Prajna Hebbar S V</td><td><span class="barcell"><span class="track"><i style="width: 80.0948%;"></i></span>84.5</span></td><td class="hide-sm">95.8</td></tr><tr><td class="rk">4</td><td class="nm" style="text-align: left;">D Joseph Stewart</td><td><span class="barcell"><span class="track"><i style="width: 72.9858%;"></i></span>77</span></td><td class="hide-sm">91.7</td></tr><tr><td class="rk">4</td><td class="nm" style="text-align: left;">Shetty Shreshtha Harish</td><td><span class="barcell"><span class="track"><i style="width: 72.9858%;"></i></span>77</span></td><td class="hide-sm">91.7</td></tr><tr><td class="rk">5</td><td class="nm" style="text-align: left;">Navajoth Krishnan B</td><td><span class="barcell"><span class="track"><i style="width: 72.5118%;"></i></span>76.5</span></td><td class="hide-sm">87.5</td></tr><tr><td class="rk">5</td><td class="nm" style="text-align: left;">Shreyas B K</td><td><span class="barcell"><span class="track"><i style="width: 72.5118%;"></i></span>76.5</span></td><td class="hide-sm">87.5</td></tr></tbody></table></div>
+    </div>
+    <div class="card absent">
+      <div class="absent-head">
+        <div>
+          <div class="eyebrow">Honourable mention</div>
+          <h2>Absentees</h2>
+        </div>
+        <span class="chip">0 wrong answers · 0 negatives</span>
+      </div>
+      <p class="sub">Didn't write the mock, so technically they're undefeated in negative marking. See you at the next one.</p>
+      <ul class="absent-list" id="absent-list"><li><b>Balaji R</b><span>265SM011</span></li><li><b>Rahul H P</b><span>265SM032</span></li><li><b>Rahul R</b><span>265SM033</span></li><li><b>Vaishnavi S</b><span>265SM056</span></li></ul>
+    </div>
+  </section>
+
+  <!-- FACULTY -->
+  <section class="view" id="view-faculty" hidden>
+    <div class="card" id="fac-lock">
+      <h2>Faculty access</h2>
+      <p class="sub">Enter the passkey to see every student's marks</p>
+      <div class="lookup">
+        <input id="fac-key" type="password" placeholder="Passkey" aria-label="Passkey" autocomplete="off" autocapitalize="characters" enterkeyhint="go" maxlength="40">
+        <button class="btn" type="button" id="fac-go">Unlock</button>
+      </div>
+      <p class="err" id="fac-err" role="alert" hidden>Wrong passkey. Try again.</p>
+    </div>
+    <div class="card" id="fac-data" hidden>
+      <div class="fac-head">
+        <div>
+          <h2>All students</h2>
+          <p class="sub" id="fac-sum">—</p>
+        </div>
+        <div class="fac-actions">
+          <input class="search" id="fac-search" type="search" placeholder="Search name or roll" aria-label="Search name or roll">
+          <button class="ghost" type="button" id="fac-copy">Copy CSV</button>
+          <button class="ghost" type="button" id="fac-dl">Download CSV</button>
+          <button class="ghost" type="button" id="fac-lock-btn">Lock</button>
+        </div>
+      </div>
+      <p class="sub" id="fac-msg" aria-live="polite"></p>
+      <div class="scroll fac-scroll"><table class="fac" id="fac-table"></table></div>
     </div>
   </section>
 
@@ -306,6 +368,7 @@ footer { max-width: 1120px; margin: 0 auto; padding: 18px 20px 30px; display: fl
 <footer><div class="mark">Efforts by <b>IC TEAM</b></div></footer>
 
 <script>
+const ABSENT = [["265SM011", "BALAJI R"], ["265SM032", "Rahul H P"], ["265SM033", "Rahul R"], ["265SM056", "Vaishnavi S"]];
 const RAW = [
 ["265SM001","Abhishek Gangan G",12,4.5,44,22,11,60.5],
 ["265SM002","Adil Ahmed",0.5,0.5,14.5,13,47,15.5],
@@ -377,7 +440,7 @@ const sdev = (a) => { if (a.length < 2) return 0; const m = mean(a); return Math
 const quant = (a, p) => { const v = a.slice().sort((x, y) => x - y), i = (v.length - 1) * p, lo = Math.floor(i); return v[lo] + (v[Math.min(lo + 1, v.length - 1)] - v[lo]) * (i - lo); };
 const stat = (k) => { const a = S.map((s) => s[k]); return { mean: mean(a), sd: sdev(a), max: Math.max(...a), min: Math.min(...a), median: quant(a, .5), q1: quant(a, .25), q3: quant(a, .75) }; };
 const ST = { total: stat("total"), varc: stat("varc"), qa: stat("qa"), lrdc: stat("lrdc"), accuracy: stat("accuracy"), attempted: stat("attempted"), correct: stat("correct"), wrong: stat("wrong") };
-const rankOf = (k, x) => 1 + S.filter((o) => o[k] > x).length;
+const rankOf = (k, x) => 1 + new Set(S.filter((o) => o[k] > x).map((o) => o[k])).size; // dense rank: equal marks share a rank, next rank follows on
 S.forEach((s) => {
   s.rank = rankOf("total", s.total);
   s.pct = N > 1 ? 100 * S.filter((o) => o.total < s.total).length / (N - 1) : 100;
@@ -550,16 +613,23 @@ function drawCW() {
 /* ---------- leaderboard ---------- */
 function fillLeaderboard() {
   const pod = document.getElementById("podium");
-  const top = S.slice(0, 3);
-  const order = [top[1], top[0], top[2]].filter(Boolean);
-  pod.replaceChildren(...order.map((s) => {
-    const d = document.createElement("div"); d.className = "pod p" + s.rank;
-    const p = document.createElement("div"); p.className = "place"; p.textContent = ["", "1st", "2nd", "3rd"][s.rank] || s.rank;
-    const n = document.createElement("div"); n.className = "nm"; n.textContent = title(s.name);
-    const sc = document.createElement("div"); sc.className = "sc"; sc.textContent = f(s.total) + " / 180";
+  const place = ["", "1st", "2nd", "3rd"];
+  const order = [2, 1, 3].map((r) => S.filter((s) => s.rank === r)).filter((g) => g.length);
+  pod.replaceChildren(...order.map((g) => {
+    const r = g[0].rank;
+    const d = document.createElement("div"); d.className = "pod p" + r;
+    const p = document.createElement("div"); p.className = "place"; p.textContent = place[r];
+    const n = document.createElement("div"); n.className = "nm"; n.textContent = g.map((s) => title(s.name)).join(" & ");
+    const sc = document.createElement("div"); sc.className = "sc"; sc.textContent = f(g[0].total) + " / 180";
     d.append(p, n, sc); return d;
   }));
   renderLB();
+  document.getElementById("absent-list").replaceChildren(...ABSENT.map(([roll, name]) => {
+    const li = document.createElement("li");
+    const b = document.createElement("b"); b.textContent = title(name);
+    const s = document.createElement("span"); s.textContent = roll;
+    li.append(b, s); return li;
+  }));
 }
 function renderLB() {
   const t = document.getElementById("lb-table");
@@ -579,6 +649,117 @@ function renderLB() {
   });
   t.replaceChildren(head, body);
 }
+
+/* ---------- faculty ---------- */
+const KEY_HASH = "5703997499dde463d14a9c6e28117d952ad292d41bc787b18c0b7709c8ee1c74";
+function sha256(str) {
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const bytes = new TextEncoder().encode(str);
+  const l = bytes.length, n = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(n);
+  m.set(bytes); m[l] = 0x80;
+  const dv = new DataView(m.buffer); dv.setUint32(n - 4, l * 8); dv.setUint32(n - 8, Math.floor(l / 0x20000000));
+  let h = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const w = new Uint32Array(64), rr = (x, k) => (x >>> k) | (x << (32 - k));
+  for (let o = 0; o < n; o += 64) {
+    for (let i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
+    for (let i = 16; i < 64; i++) { const s0 = rr(w[i-15],7) ^ rr(w[i-15],18) ^ (w[i-15] >>> 3), s1 = rr(w[i-2],17) ^ rr(w[i-2],19) ^ (w[i-2] >>> 10); w[i] = (w[i-16] + s0 + w[i-7] + s1) >>> 0; }
+    let [a, b, c, d, e, f2, g, hh] = h;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (hh + (rr(e,6) ^ rr(e,11) ^ rr(e,25)) + ((e & f2) ^ (~e & g)) + K[i] + w[i]) >>> 0;
+      const t2 = ((rr(a,2) ^ rr(a,13) ^ rr(a,22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+      hh = g; g = f2; f2 = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    h = h.map((v, i) => (v + [a, b, c, d, e, f2, g, hh][i]) >>> 0);
+  }
+  return h.map((v) => v.toString(16).padStart(8, "0")).join("");
+}
+const FAC_COLS = [["rank", "Rank"], ["roll", "Roll no.", "l"], ["name", "Name", "l"], ["varc", "VARC"], ["qa", "QA"], ["lrdc", "LRDC"], ["correct", "Correct"], ["wrong", "Wrong"], ["attempted", "Attempted"], ["accuracy", "Accuracy %"], ["total", "Total /180"], ["pct", "Percentile"]];
+const FAC = { key: "total", dir: -1, q: "", open: false };
+function facUnlocked() { try { return sessionStorage.getItem("fac") === KEY_HASH; } catch (e) { return FAC.open; } }
+function facRows() {
+  const v = (s, k) => (k === "name" ? title(s.name) : s[k]);
+  const present = S.slice().sort((a, b) => {
+    const x = v(a, FAC.key), y = v(b, FAC.key);
+    const c = typeof x === "string" ? x.localeCompare(y) : x - y;
+    return c * FAC.dir || b.total - a.total || a.roll.localeCompare(b.roll);
+  });
+  return present;
+}
+function renderFac() {
+  const open = facUnlocked() || FAC.open;
+  document.getElementById("fac-lock").hidden = open;
+  document.getElementById("fac-data").hidden = !open;
+  if (!open) return;
+  document.getElementById("fac-sum").textContent = `${N} appeared · ${ABSENT.length} absent · sorted by ${FAC_COLS.find((c) => c[0] === FAC.key)[1].toLowerCase()}, ${FAC.dir < 0 ? "highest" : "lowest"} first`;
+  const t = document.getElementById("fac-table");
+  const head = document.createElement("thead"), hr = document.createElement("tr");
+  FAC_COLS.forEach(([k, lab, cls]) => {
+    const th = document.createElement("th"); th.textContent = lab; if (cls) th.className = cls;
+    th.tabIndex = 0;
+    if (k === FAC.key) th.setAttribute("aria-sort", FAC.dir < 0 ? "descending" : "ascending");
+    const sort = () => { if (FAC.key === k) FAC.dir = -FAC.dir; else { FAC.key = k; FAC.dir = (k === "roll" || k === "name" || k === "rank") ? 1 : -1; } renderFac(); };
+    th.addEventListener("click", sort);
+    th.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sort(); } });
+    hr.appendChild(th);
+  });
+  head.appendChild(hr);
+  const body = document.createElement("tbody");
+  const q = FAC.q;
+  facRows().filter((s) => !q || s.name.toLowerCase().includes(q) || s.roll.toLowerCase().includes(q)).forEach((s) => {
+    const tr = document.createElement("tr");
+    FAC_COLS.forEach(([k, , cls]) => {
+      const td = document.createElement("td");
+      let val = s[k];
+      if (k === "name") { td.className = "nm"; val = title(s.name); }
+      else if (k === "roll") { td.className = "nm"; td.style.fontFamily = "var(--mono)"; }
+      else if (k === "accuracy" || k === "pct") val = f(s[k], 1);
+      else if (typeof val === "number") val = f(val);
+      if (k === "total") td.className = "tot";
+      if (["varc", "qa", "lrdc"].includes(k) && s[k] < 0) td.className = "neg";
+      td.textContent = val; tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+  ABSENT.filter(([roll, name]) => !q || name.toLowerCase().includes(q) || roll.toLowerCase().includes(q)).forEach(([roll, name]) => {
+    const tr = document.createElement("tr"); tr.className = "abs";
+    FAC_COLS.forEach(([k]) => { const td = document.createElement("td"); if (k === "roll" || k === "name") td.className = "nm"; td.textContent = k === "roll" ? roll : k === "name" ? title(name) : k === "total" ? "Absent" : "—"; tr.appendChild(td); });
+    body.appendChild(tr);
+  });
+  t.replaceChildren(head, body);
+}
+function facCSV() {
+  const esc = (v) => /[",\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : String(v);
+  const rows = [FAC_COLS.map((c) => c[1])];
+  facRows().forEach((s) => rows.push(FAC_COLS.map(([k]) => k === "name" ? title(s.name) : (k === "accuracy" || k === "pct") ? f(s[k], 1) : typeof s[k] === "number" ? f(s[k]) : s[k])));
+  ABSENT.forEach(([roll, name]) => rows.push(FAC_COLS.map(([k]) => k === "roll" ? roll : k === "name" ? title(name) : k === "total" ? "Absent" : "")));
+  return rows.map((r) => r.map(esc).join(",")).join("\n");
+}
+function facTry() {
+  const inp = document.getElementById("fac-key");
+  const ok = sha256(inp.value.trim().toUpperCase()) === KEY_HASH;
+  document.getElementById("fac-err").hidden = ok;
+  if (!ok) { inp.select(); return; }
+  FAC.open = true; inp.value = "";
+  try { sessionStorage.setItem("fac", KEY_HASH); } catch (e) {}
+  renderFac();
+}
+function facMsg(m) { const el = document.getElementById("fac-msg"); el.textContent = m; clearTimeout(facMsg.t); facMsg.t = setTimeout(() => { el.textContent = ""; }, 3000); }
+document.getElementById("fac-go").addEventListener("click", facTry);
+document.getElementById("fac-key").addEventListener("keydown", (e) => { if (e.key === "Enter" || e.keyCode === 13) { e.preventDefault(); facTry(); } });
+document.getElementById("fac-search").addEventListener("input", (e) => { FAC.q = e.target.value.trim().toLowerCase(); renderFac(); });
+document.getElementById("fac-lock-btn").addEventListener("click", () => { FAC.open = false; try { sessionStorage.removeItem("fac"); } catch (e) {} renderFac(); });
+document.getElementById("fac-copy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(facCSV()); facMsg("Copied. Paste into Excel or Google Sheets."); }
+  catch (e) { facMsg("Copy was blocked by this browser. Use Download CSV instead."); }
+});
+document.getElementById("fac-dl").addEventListener("click", () => {
+  try {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + facCSV()], { type: "text/csv;charset=utf-8" }));
+    a.download = "265SM-mock-marks.csv"; document.body.appendChild(a); a.click(); a.remove();
+    facMsg("Download started.");
+  } catch (e) { facMsg("Download was blocked here. Use Copy CSV instead."); }
+});
 
 /* ---------- my result ---------- */
 let ME = null;
@@ -707,7 +888,7 @@ function findRoll(raw) {
 }
 
 /* ---------- routing ---------- */
-const VIEWS = ["overview", "leaderboard", "my-result"];
+const VIEWS = ["overview", "leaderboard", "my-result", "faculty"];
 let drawn = {};
 function go(v) {
   if (!VIEWS.includes(v)) v = "overview";
@@ -715,6 +896,7 @@ function go(v) {
   document.querySelectorAll(".tab").forEach((b) => { if (b.dataset.view === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   try { if (location.hash.slice(1) !== v) history.replaceState(null, "", "#" + v); } catch (e) { /* some viewers block this; routing still works */ }
   if (v === "overview" && !drawn.overview) { drawn.overview = true; drawOverviewCharts(); }
+  if (v === "faculty") { safe(renderFac, document.getElementById("fac-data")); if (!facUnlocked() && !FAC.open) document.getElementById("fac-key").focus({ preventScroll: true }); }
   if (v === "my-result") { if (ME) drawMe(false); else document.getElementById("roll").focus({ preventScroll: true }); }
 }
 function drawOverviewCharts() { [[drawHist, "c-hist"], [drawSpread, "c-spread"], [drawScatter, "c-scatter"], [drawCW, "c-cw"]].forEach(([fn, id]) => safe(fn, document.getElementById(id))); }
